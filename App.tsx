@@ -1,31 +1,44 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, SafeAreaView } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-export default function App() {
+import LoginScreen from './src/screens/LoginScreen'
+import HomeScreen from './src/screens/HomeScreen';
+import SearchScreen from './src/screens/SearchScreen';
 
-  const myText = ['Lorem', 'Ipsum', 'Dolore'];
-  console.log(`${myText[0].repeat(3)} `);
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-  return (
-    <SafeAreaView style={styles.container}>
-      {/* <FlatList 
-        data={myMovieData}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => {
-            return(
-                <Text style={{color: 'red'}}>{item.title}</Text>
-            )
-        }}
-      />  */}
-    </SafeAreaView>
-  );
-}
+const MainTabs = () => (
+  <Tab.Navigator screenOptions={{headerShown: false}}>
+    <Tab.Screen name="HomeScreen" component={HomeScreen} />
+    <Tab.Screen name="SearchScreen" component={SearchScreen} />
+  </Tab.Navigator>
+);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+/* const MainDrawer = () => (
+  <Drawer.Navigator>
+    <Drawer.Screen name="Home" component={HomeScreen} />
+    <Drawer.Screen name="DrawerScreen1" component={DrawerScreen1} />
+  </Drawer.Navigator>
+);  */
+
+const MainStack = () => (
+  <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Home" component={MainTabs} />
+    {/* <Stack.Screen name="Drawer" component={MainDrawer} /> */}
+  </Stack.Navigator>
+);
+
+
+const App = () => (
+  <NavigationContainer>
+    <MainStack />
+  </NavigationContainer>
+);
+
+export default App;
